@@ -1,5 +1,2 @@
 #!/bin/bash
 head -n3 iacta | tail -n1
-tr -n3p iacta
-tr "3!d" iacta
-awl "FNR==3{print}" iacta

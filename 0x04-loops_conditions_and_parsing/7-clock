@@ -3,13 +3,15 @@
 hour=0
 minute=1
 echo "Hour: $hour"
-while [ $hour -lt 12 ]
+while [ $hour -lt 13 ]
 do
 	echo "$minute"
 	(( minute = minute + 1))
 	if [ $minute -eq 60 ]; then
 	minute=1
 	(( hour = hour + 1))
+	if [ $hour -ne 13 ]; then
 	echo "Hour: $hour"
+	fi
 	fi
 done

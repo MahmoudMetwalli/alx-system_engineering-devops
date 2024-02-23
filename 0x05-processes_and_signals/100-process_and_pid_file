@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#handles sigout ,sigint and sigterm
+handler1 () { echo "I hate the kill command"; }
+handler2 () { rm "/var/run/myscript.pid"; }
+handler3 () { handler1; handler2; }
+echo "$$">"/var/run/myscript.pid"
+trap 'echo Y U no love me?!' sigint
+trap "handler3" sigterm
+trap "handler2" sigquit
+while true
+do
+echo "To infinity and beyond"
+done

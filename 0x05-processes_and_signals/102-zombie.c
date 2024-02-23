@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 /**
  * infinite_while - infinite while loop
  * Return: always zero

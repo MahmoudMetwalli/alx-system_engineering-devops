@@ -31,18 +31,10 @@ int main(void)
 	while (count < 5)
 	{
 		pid = fork();
-		if (pid < 0)
-		{
-			perror("fork");
-			exit(1);
-		}
-		/* Child */
-		if (pid == 0)
-		{
-			zombie_pid = getpid();
-			printf("Zombie process created, PID: %u\n", zombie_pid);
+		if (pid)
+			printf("Zombie process created, PID: %u\n", pid);
+		else
 			exit(0);
-		}
 		count++;
 	}
 	infinite_while();

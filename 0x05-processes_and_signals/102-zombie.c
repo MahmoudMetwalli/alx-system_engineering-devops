@@ -25,7 +25,7 @@ int infinite_while(void)
 
 int main(void)
 {
-	pid_t pid, zombie_pid;
+	pid_t pid;
 	int status, count = 0;
 
 	while (count < 5)

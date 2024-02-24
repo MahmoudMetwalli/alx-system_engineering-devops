@@ -17,18 +17,34 @@ int infinite_while(void)
  * main - creates zombies
  * Return: zero on success or 1 on failure
  */
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
 int main(void)
 {
-	int count = 0, fork_call, zombie_pid;
+	pid_t pid, zombie_pid;
+	int status, count = 0;
 
 	while (count < 5)
 	{
-		fork_call = fork();
-		if (fork_call == -1)
-			return (1);
-		zombie_pid = getpid();
-		printf("Zombie process created, PID: %d\n", zombie_pid);
-		infinite_while();
+		pid = fork();
+		if (pid < 0)
+		{
+			perror("fork");
+			exit(1);
+		}
+		/* Child */
+		if (pid == 0)
+		{
+			zombie_pid = getpid();
+			printf("Zombie process created, PID: %u\n", zombie_pid);
+			exit(0);
+		}
 		count++;
 	}
+	infinite_while();
+	return (0);
 }

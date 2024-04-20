@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# creates an RSA key pair
+# Creates an RSA key pair
 # Name of the private key
 KEY_NAME="school"
 

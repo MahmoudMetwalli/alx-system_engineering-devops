@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# installs nginx
+apt-get -y install nginxc

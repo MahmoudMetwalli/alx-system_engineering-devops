@@ -2,6 +2,7 @@
 # Create a 404 error page
 sudo apt-get update
 sudo apt-get install -y nginx
-sudo sed -i "s/#error_page 404/error_page 404/" /etc/nginx/sites-enabled/default
-sudo bash -c 'echo "Ceci n'\''est pas une page" > /usr/share/nginx/html/404.html'
+sudo bash -c 'echo "Ceci n'\''est pas une page" > /var/www/html/custom_404.html'
+err="\\\terror_page 404 /custom_404.html;\n\tlocation = /custom_404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}\n"
+sudo sed -i "44i $err" /etc/nginx/sites-available/default
 sudo service nginx start

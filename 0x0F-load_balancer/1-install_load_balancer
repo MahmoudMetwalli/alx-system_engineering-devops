@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Configure HAProxy
+sudo apt-get install -y --no-install-recommends software-properties-common
+sudo add-apt-repository ppa:vbernat/haproxy-2.8
+sudo apt-get update
+sudo apt-get install -y haproxy=2.8.\*
+sudo bash -c 'echo "
+frontend metoweb
+    bind *:80
+    mode http
+    default_backend app
+backend metoback
+    balance roundrobin
+    server 531000-web-01 54.173.91.227:80 check
+    server 531000-web-02 3.85.1.149:80 check" >> /etc/haproxy/haproxy.cfg'
+sudo service haproxy restart

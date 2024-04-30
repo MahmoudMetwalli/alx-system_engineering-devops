@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Configure Nginx so that its HTTP response contains a custom header (on web-01 and web-02)
+sudo apt-get update
+sudo apt-get install -y nginx
 FIND=$(grep "X-Server-by" /etc/nginx/sites-available/default)
 if [[ -z $FIND ]]; then
 sudo sed -i "25i\	add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-enabled/default
-sudo service nginx restart
 fi
+sudo service nginx restart

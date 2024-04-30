@@ -8,7 +8,7 @@ sudo bash -c 'echo "
 frontend metoweb
     bind *:80
     mode http
-    default_backend app
+    default_backend metoback
 backend metoback
     balance roundrobin
     server 531000-web-01 54.173.91.227:80 check

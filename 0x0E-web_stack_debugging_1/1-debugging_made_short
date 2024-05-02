@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 # installs appache and starts it
-ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
-service nginx restart
-pkill -f "nginx"
+echo "hi" > /var/run/nginx.pid
+echo "hi" > /run/nginx.pid

@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # installs appache and starts it
-echo "hi" > /var/run/nginx.pid
-echo "hi" > /run/nginx.pid
+echo "meto" > /var/run/nginx.pid
+echo "meto" > /run/nginx.pid

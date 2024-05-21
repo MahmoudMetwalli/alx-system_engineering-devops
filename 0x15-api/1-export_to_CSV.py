@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """returns information about his/her list progress"""
+import csv
 import requests
 import sys
 
@@ -10,8 +11,7 @@ if __name__ == "__main__":
 typicode.com/users/{EMPLOYEE_id}', timeout=1)
     html_a = response_a.json()
     EMPLOYEE_NAME = html_a['name']
-    NUMBER_OF_DONE_TASKS = 0
-    TOTAL_NUMBER_OF_TASKS = 0
+    attributes = ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"]
     task_list = []
     for i in range(1, 201):
         URL = f'https://jsonplaceholder.typicode.com/todos/{i}'
@@ -20,15 +20,17 @@ typicode.com/users/{EMPLOYEE_id}', timeout=1)
             try:
                 html_b = response_b.json()
                 if html_b['userId'] == EMPLOYEE_id:
-                    TOTAL_NUMBER_OF_TASKS += 1
-                    if html_b['completed'] is True:
-                        NUMBER_OF_DONE_TASKS += 1
-                        task_list.append(html_b['title'])
+                    task_list.append({"USER_ID": EMPLOYEE_id,
+                                      "USERNAME": f'{EMPLOYEE_NAME}',
+                                      "TASK_COMPLETED_STATUS":
+                                      f'{html_b["completed"]}',
+                                      "TASK_TITLE": f'{html_b["title"]}'})
             except ValueError:
                 print('Not a valid JSON')
         except Exception:
             pass
-    print(f'Employee {EMPLOYEE_NAME} is done with\
- tasks({NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):')
-    for task in task_list:
-        print(f'\t {task}')
+    with open(f'{EMPLOYEE_id}.csv', 'w', encoding='utf-8') as csv_file:
+        csv_writer = csv.DictWriter(csv_file, attributes,
+                                    quoting=csv.QUOTE_ALL)
+        for task in task_list:
+            csv_writer.writerow(task)

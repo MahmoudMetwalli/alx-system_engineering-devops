@@ -1,26 +1,34 @@
 #!/usr/bin/python3
-"""queries the Reddit API and returns the number of subscribers"""
+"""
+recursive function that queries the Reddit API
+"""
 import requests
 
 
-def recurse(subreddit, hot_list=[], after="null"):
-    """function to query the reddit api"""
-    index = len(hot_list)
-    URL = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    next_page = {"limit": "100", "after": after}
-    response = requests.get(URL, timeout=10, allow_redirects=False,
-                            params=next_page)
-    data = response.json()
-    try:
-        hot_list.append(data['data']['children'][index]
-                        ['data']['title'])
+def recurse(subreddit, hot_list=[], after=None):
+    """Base URL for the subreddit's hot posts """
+    url = f'https://www.reddit.com/r/{subreddit}/hot/.json'
+    headers = {'User-Agent': 'Mozilla/5.0'}
+    params = {'after': after, 'limit': 100}
+
+    response = requests.get(url, headers=headers,
+                            params=params, allow_redirects=False)
+
+    if response.status_code == 200:
+        data = response.json()
+        posts = data['data']['children']
+
+        # Add the titles of the posts to the hot_list
+        for post in posts:
+            hot_list.append(post['data']['title'])
+
+        # Get the 'after' value for the next page of results
         after = data['data']['after']
-        recurse(subreddit, hot_list, after)
-    except KeyError:
-        if (index == 0):
-            return None
+
+        if after is not None:
+            # Recursive call to get the next page of results
+            return recurse(subreddit, hot_list, after)
         else:
             return hot_list
-    except IndexError:
-        return hot_list
-    return hot_list
+    else:
+        return None

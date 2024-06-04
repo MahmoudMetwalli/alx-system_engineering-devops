@@ -14,8 +14,7 @@ def recurse(subreddit, hot_list=[], after="null"):
     try:
         hot_list.append(data['data']['children'][index]
                         ['data']['title'])
-        if index != 0 and index % 100 == 0:
-            after = data['data']['after']
+        after = data['data']['after']
         recurse(subreddit, hot_list, after)
     except KeyError:
         if (index == 0):

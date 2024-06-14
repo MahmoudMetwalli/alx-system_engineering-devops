@@ -1,0 +1,22 @@
+server {
+    listen 80;
+    server_name 127.0.0.1 54.173.91.227;
+	location /static/ {
+                        # rewrite ^(/static/[^?]*)\?.*$ $1 last;
+                        alias /home/ubuntu/AirBnB_clone_v4/web_dynamic/static/;
+                        try_files $uri $uri/ =404;
+                }
+                location / {
+                        try_files $uri $uri/ =404;
+                }
+    location /airbnb-onepage/ {
+        include proxy_params;
+        proxy_pass http://127.0.0.1:5000;
+    }
+    location ~ ^/airbnb-dynamic/number_odd_or_even/(\d+)$ {
+        proxy_pass http://0.0.0.0:5001/number_odd_or_even/$1;
+    }
+	location /api/ {
+        proxy_pass http://0.0.0.0:5002;
+    }
+}
